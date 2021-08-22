@@ -23,7 +23,7 @@ app.get('/loginCheck', (req, res) => {
     //res.sendFile(__dirname + '/index.html')
    // socket.emit('new-user',req.query.userId)
     res.redirect('demo') 
- })
+ }) 
 
 app.get('/demo', (req, res) => {
     res.render('demo',{user:1})
