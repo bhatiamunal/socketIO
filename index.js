@@ -16,7 +16,8 @@ app.use(express.json())
 app.set('view engine','ejs')
 app.get('/', (req, res) => {
    //res.sendFile(__dirname + '/index.html')
-    res.render("login")
+   // res.render("login")
+    res.redirect('demo') 
 })
 app.get('/loginCheck', (req, res) => {
     console.log(req.query.userId)
