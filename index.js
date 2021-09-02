@@ -1,7 +1,7 @@
 const { constants } = require('buffer');
 const express = require('express')
 const app = express()
-const http = require('http').createServer(app)
+const http = require('http').createServer(app);
 app.use(express.json());
 const PORT = process.env.PORT || 3000
 //user =[{id :"",name:"",data:[{id:"",message:"",time:""}]}]
