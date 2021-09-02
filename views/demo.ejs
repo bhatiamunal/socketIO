@@ -29,7 +29,8 @@
     <script >
         const socket = io('http://localhost:3000')
         socket.on('connected')
-        let user = prompt("Please enter your name");
+        //let user = prompt("Please enter your name");
+        let user = '<%-current_user%>';
         socket.emit('new-user',user)
         // socket.on('message',(data)=>{
         //     document.getElementById("demo")

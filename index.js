@@ -2,10 +2,13 @@ const { constants } = require('buffer');
 const express = require('express')
 const app = express()
 const http = require('http').createServer(app)
-
+app.use(express.json());
 const PORT = process.env.PORT || 3000
 //user =[{id :"",name:"",data:[{id:"",message:"",time:""}]}]
-let user=[];
+let user=[
+        {username:"munal",password:"123",status:"offline"},
+        {username:"sahil",password:"123",status:"offline"}
+        ];
 
 http.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`)
@@ -16,19 +19,31 @@ app.use(express.json())
 app.set('view engine','ejs')
 app.get('/', (req, res) => {
    //res.sendFile(__dirname + '/index.html')
-   // res.render("login")
-   res.redirect('demo') 
+    res.render("login")
+  // res.redirect('demo') 
 })
+
 app.get('/loginCheck', (req, res) => {
-    console.log(req.query.userId)
-    //res.sendFile(__dirname + '/index.html')
-   // socket.emit('new-user',req.query.userId)
-    res.redirect('demo') 
+
+    //res.redirect('demo') 
+     console.log(req.query)
+    let username = req.query.username;
+    let password = req.query.password;
+    user.forEach(ele=>{
+        if(username== ele.username && password==ele.password){
+            ele.status ="online";
+            res.render('demo',{current_user:ele.username});
+        } 
+    })
+   
+   // res.send(`Username: ${username} Password: ${password}`);
+   
  }) 
 
 app.get('/demo', (req, res) => {
     res.render('demo',{user:1})
 })
+
 
 // Socket 
 const io = require('socket.io')(http)
