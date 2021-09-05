@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,64 +9,98 @@
 </head>
 
 <body>
-    <!-- <section class="chat__section">
-        
-        <div class="message__area"></div>
-        <div>
-            <textarea id="textarea" cols="30" rows="1" placeholder="Write a message..."></textarea>
-        </div>
-    </section>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="/client.js"></script> -->
    <form id="formData">
        <input type="text" id="messageInput">
        <input type="submit" >
    </form>
-    <!-- <input type="text"  id="demo">
-   
-    <button  onclick="sendmessage()">Click</button> -->
     <div id="demo1"></div>
-    <script >
-        const socket = io('http://localhost:3000')
-        socket.on('connected')
-        //let user = prompt("Please enter your name");
-        let user = '<%-current_user%>';
-        socket.emit('new-user',user)
-        // socket.on('message',(data)=>{
-        //     document.getElementById("demo")
-        // })
-        // socket.on('message',(data)=>{
-        //     document.getElementById("demo1").innerHTML = data
-        // })
-        let fillData = (msg) => {
+
+</body>
+
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">Logo</a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link 1</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link 2</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">Link 3</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid">
+    <form id="formData">
+        <input type="text" id="messageInput">
+        <input type="submit" >
+    </form>
+</div>
+<div id="demo1"></div>
+<script >
+    const socket = io('http://localhost:3000')
+    socket.on('connected')
+    //let user = prompt("Please enter your name");
+    let user = '<%-current_user%>';
+    socket.emit('new-user',user)
+    // socket.on('message',(data)=>{
+    //     document.getElementById("demo")
+    // })
+    // socket.on('message',(data)=>{
+    //     document.getElementById("demo1").innerHTML = data
+    // })
+    let fillData = (msg) => {
         let ele = document.getElementById('demo1');
         const d = new Date();
         let dateBe = d.getHours() +":"+d.getMinutes();
-
         ele.innerHTML += msg+" " +dateBe;+"<br>";
-        }
-        let formById = document.getElementById("formData")
-        let messageInput = document.getElementById("messageInput")
-        formById.addEventListener('submit',(e)=>{
-            e.preventDefault();
-            const message = messageInput.value
-            fillData(`You:${message}`)
-            socket.emit('send',message)
-            messageInput.value = "";
-        })
-        socket.on('recived',data=>{
-            fillData(`${data.name}:${data.message}`)
-        });
-        const sendmessage =()=>{
-            //console.log('this',document.getElementById("demo").value)
-            //console.log(data)
-            // console.log("client site")
-            // document.getElementById("demo1").innerHTML = document.getElementById("demo").value
-           // socket.on('recived',fillData);
-            
-        }
+    }
+    let formById = document.getElementById("formData")
+    let messageInput = document.getElementById("messageInput")
+    formById.addEventListener('submit',(e)=>{
+        e.preventDefault();
+        const message = messageInput.value
+        fillData(`You:${message}`)
+        socket.emit('send',message)
+        messageInput.value = "";
+    })
+    socket.on('recived',data=>{
+        fillData(`${data.name}:${data.message}`)
+    });
+    socket.on('leave',data=>{
+        fillData(`${data} left chat.`)
+    });
 
-    </script>
+   
+    const sendmessage =()=>{
+        //console.log('this',document.getElementById("demo").value)
+        //console.log(data)
+        // console.log("client site")
+        // document.getElementById("demo1").innerHTML = document.getElementById("demo").value
+       // socket.on('recived',fillData);
+        
+    }
+
+</script>
 </body>
-
 </html>
