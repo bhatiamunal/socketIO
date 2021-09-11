@@ -46,8 +46,8 @@ app.post('/loginCheck', (req, res) => {
    
    // res.send(`Username: ${username} Password: ${password}`);
    let activeUser  = loginCheck(req.body.username,req.body.password);
-   if(activeUser.length>0){
-        res.render('demo',{current_user:activeUser[0].username});
+   if(activeUser.length>0){     
+        res.render('demo',{current_user:activeUser[0].username,userDetails:user});
    }
    else {
     message = "Username or Password is wrong" 
@@ -70,12 +70,20 @@ io.on('connection', (socket) => {
     //user.push({id:socket.id,message:[]})
     //io.to(socketid).emit('message', 'for your eyes only');
     socket.on('new-user',name=>{
+        console.log("This is user",user)
+        user.map(ele=>{
+            if(ele.username==name && ele.status=="offline" ){
+                ele.id =socket.id;
+                ele.status ="online";
+            }
+        })
         // user.some(ele=>{ele})
-        // user[socket.id] = name
-        console.log(user)
-        //socket.broadcast.emit("user-joined",name)
-        // console.log("new user", name)
-        // user.push(socket.id)
+        //  user[socket.id] = name
+        // console.log(user)
+        // //socket.broadcast.emit("user-joined",name)
+        // // console.log("new user", name)
+        //  user.push(socket.id)
+        //  console.log(user)
          
     })
     socket.on('message', msg => {
@@ -86,10 +94,11 @@ io.on('connection', (socket) => {
         //console.log(msg)
        //socket.broadcast.emit('message',msg)
     })
-    socket.on('send',msg=>{
+    socket.on('send',(msg,user)=>{
        // console.log("server site",msg,user[socket.id])
-       console.log(msg)
-        socket.broadcast.emit('recived',{message:msg,name:user[socket.id]})
+       console.log(msg,user)
+        
+       //socket.broadcast.emit('recived',{message:msg,name:user[socket.id]})
     })
     socket.on("disconnect", msg => {
         
